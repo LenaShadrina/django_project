@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Author #{{ object.id }} details:</h1>
+
+<ul>
+    <li><b>Author</b>: {{ object.author }}</li>
+    <li><b>Genre</b>: <a href="/genre-detail/{{ object.genre.id }}/">{{ object.genre.name }}</a></li>
+    <li><b>Description</b>: {{ object.description }}</li>
+    <li><b>Update</b>: <a href="/author-update-cbv/{{ object.author.id }}/">start updating</a></li>
+    <li><b>Delete</b>: <a href="/author-delete-cbv/{{ object.id }}/">delete</a></li>
+</ul>
+</body>
+</html>
