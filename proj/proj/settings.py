@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['lenashadrina.pythonanywhere.com', '*']
+ALLOWED_HOSTS = ['lenashadrina.pythonanywhere.com']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main_refs',
+    'goods',
 ]
 
 MIDDLEWARE = [
@@ -123,10 +124,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/lenashadrina/static'
-MEDIA_ROOT = '/home/lenashadrina/media'
+#MEDIA_ROOT = '/home/lenashadrina/media'
+MEDIA_ROOT = BASE_DIR.parent / 'media'
 
-#STATIC_URL = ‘./static/’
-#STATIC_ROOT = './static'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
