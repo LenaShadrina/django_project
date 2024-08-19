@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "base.html" %}
+
+
+{% block MAIN_CONTENT %}
 <body>
     <h1>Genre #{{ object.id }} details:</h1>
-
 <ul>
     <li><b>Name</b>: {{ object.name }}</li>
     <li><b>Description</b>: {{ object.description }}</li>
-    <li><b>Update</b>: <a href="/genre-update-cbv/{{ object.id }}/">start updating</a></li>
-    <li><b>Delete</b>: <a href="/genre-delete-cbv/{{ object.id }}/">delete</a></li>
+    <li><b>Update</b>: <a href="{% url 'main_references:genre-update' object.id %}">start updating</a></li>
+    <li><b>Delete</b>: <a href="{% url 'main_references:genre-delete' object.id %}">delete</a></li>
 </ul>
 </body>
-</html>
+{% endblock MAIN_CONTENT %}

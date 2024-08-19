@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse, reverse_lazy
 
 class Genre(models.Model):
     name = models.CharField(max_length=100)
@@ -28,7 +28,8 @@ class Author(models.Model):
         return f"{self.author} #{self.pk}"
 
     def get_absolute_url(self):
-        return f"/author-detail-cbv/{self.pk}/"
+        return reverse_lazy('main_references:author-detail', kwargs={"pk": self.pk})
+
 
 
 class Series(models.Model):
