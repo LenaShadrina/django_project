@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "base.html" %}
+
+
+{% block MAIN_CONTENT %}
 <body>
-     <table border="1">
+     <table class="table table-striped">
         <thead>
             <td>ID</td>
             <td>name</td>
@@ -21,4 +19,4 @@
     </tr>
     </table>
 </body>
-</html>
+{% endblock MAIN_CONTENT %}
