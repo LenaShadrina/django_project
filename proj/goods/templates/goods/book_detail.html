@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block MAIN_CONTENT %}
+   <h1>Name_book: {{ object.name_book }} details:</h1>
+<ul>
+    <li><b>Author</b>: {{ object.authors }}</li>
+    <li><b>Price</b>: {{ object.price }}</li>
+    <li><b>Series</b>: {{ object.series }}</li>
+    <li><b>Genre</b>: {{ object.genres.name }}</li>
+    <li><b>Publication_date</b>: {{ object.publication_date }}</li>
+    <li><b>Pages</b>: {{ object.pages }}</li>
+    <li><b>Binding</b>: {{ object.binding }}</li>
+    <li><b>Format</b>: {{ object.format }}</li>
+    <li><b>Isbn</b>: {{ object.isbn }}</li>
+    <li><b>Weight</b>: {{ object.weight }}</li>
+    <li><b>Age_restriction</b>: {{ object.age_restriction }}</li>
+    <li><b>Publishing_house</b>: {{ object.publishing_house }}</li>
+    <li><b>Stock</b>: {{ object.stock}}</li>
+    <li><b>Available</b>: {{ object.available }}</li>
+    <li><b>Rating</b>: {{ object.rating}}</li>
+    <li><b>Created</b>: {{ object.created}}</li>
+    <li><b>Update</b>: <a href="{% url 'main_references:author-update' object.id %}">start updating</a></li>
+    <li><b>Delete</b>: <a href="{% url 'main_references:author-delete' object.id %}">delete</a></li>
+    <li><b>Description</b>: {{ object.description }}</li>
+</ul>
+<h3>Add to the cart:</h3>
+<form action="{% url 'orders:add-product-to-cart' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ object.id }}">
+    <div class="mb-3">
+    <label class="form-label">Quantity:</label>
+    <input type="number" name="quantity" class="form-control" step="1" min="1">
+    <div class="form-text">Pick a number.</div>
+  </div>
+     <button type="submit" class="btn btn-outline-dark">Add</button>
+</form>
+{% endblock MAIN_CONTENT %}

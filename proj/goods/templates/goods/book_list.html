@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block MAIN_CONTENT %}
+    <table class="table table-striped">
+        <thead>
+            <td>ID</td>
+            <td>name book</td>
+            <td>author</td>
+            <td>genre</td>
+            <td>cover</td>
+        </thead>
+        {% for obj in object_list %}
+            <tr>
+                <td>{{ obj.id }}</td>
+                <td>{{ obj.name_book }}</td>
+                <td>{{ obj.authors }}</td>
+                <td>{{ obj.genres }}</td>
+                <td><a href="/product-detail/{{ obj.id }}">view</a></td>
+            <tr>
+        {% endfor %}
+        </tr>
+    </table>
+
+{% endblock MAIN_CONTENT %}

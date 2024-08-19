@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+{% block MAIN_CONTENT %}
+<h1>Your Cart</h1>
+{% if cart %}
+<ul>
+<li>Your cart id is {{ cart.id }}</li>
+<li>Created {{ cart.created }}</li>
+<li>Updated {{ cart.updated }}</li>
+</ul>
+<h3>Books in cart:</h3>
+<form action="{% url 'orders:evaluate-cart' %}" method="post">
+{% csrf_token %}
+ <table class="table table-striped">
+<tr>
+    <th>Book</th>
+    <th>price per book</th>
+    <th>quantity</th>
+    <th>price</th>
+    <th>#</th>
+</tr>
+     {% for book_in_cart in cart.books.all %}
+     <tr>
+         <td>{{ book_in_cart.book.name_book }}</td>
+         <td>{{ book_in_cart.price_per_book }}</td>
+         <td>
+         <div class="mb-3">
+            <input
+                type="number"
+                name="quantity.{{book_in_cart.pk}}"
+                class="form-control"
+                step="1"
+                value="{{book_in_cart.quantity}}"
+                min="0">
+         </div>
+         </td>
+         <td>{{ book_in_cart.price }}</td>
+         <td>#</td>
+         </tr>
+     {% endfor %}
+     <tr>
+         <td colspan="3"><b>Order price:</b></td>
+         <td colspan="2"><b>{{ cart.order_price }}</b></td>
+     </tr>
+ </table>
+    <button type="submit" name="action" value="update" class="btn btn-dark">Update</button>
+    <button type="submit" name="action" value="create" class="btn btn-dark">Create order</button>
+</form>
+{% else %}
+<h2> Your cart is empty </h2>
+{% endif %}
+
+{% endblock MAIN_CONTENT %}
