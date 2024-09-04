@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.views import generic as generic_views
+from acc.models import CustomerProfile
 # Create your models here.
 
 User = get_user_model()
@@ -65,3 +67,16 @@ class BookInCart(models.Model):
 
     def __str__(self) -> str:
         return f"Book{self.book.pk} in cart#{self.cart.pk}, quantity{self.quantity}"
+
+
+class Order(models.Model):
+    cart = models.OneToOneField(Cart, on_delete=models.PROTECT, related_name="cart")
+    tel = models.ForeignKey(CustomerProfile, on_delete=models.PROTECT, related_name="telephone")
+
+
+    def __str__(self) -> str:
+        return f" Order #{self.pk}"
+
+
+
+

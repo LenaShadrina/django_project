@@ -2,24 +2,25 @@
 
 
 {% block MAIN_CONTENT %}
-<h1>Author</h1>
+<h1>List of all authors</h1>
     <table class="table table-striped">
         <thead>
             <th>ID</th>
             <th>name</th>
             <th>actions</th>
-            <th>create</th>
+            <th>update</th>
             <th>delete</th>
         </thead>
         {% for obj in object_list %}
             <tr>
-                <td>{{ obj.id }}</td>
-                <td>{{ obj.author }}</td>
-                <td><a href="/author-detail-cbv/{{ obj.id }}"><i class="bi bi-eye-fill"></i></a></td>
-                <td><a href="/author-create-cbv/"><i class="bi bi-file-earmark-plus-fill"></i></a></td>
-                <td><a href="/author-delete-cbv/{{ obj.id }}"><i class="bi bi-trash3-fill"></i></a></td>
+                <td><b>{{ obj.id }}</b></td>
+                <td><b>{{ obj.author }}</b></td>
+                <td><a href="{% url 'main_references:author-detail' obj.id %}"><i class="bi bi-eye-fill"></i></a></td>
+                <td><a href="{% url 'main_references:author-update' obj.id %}">start updating</a></td>
+                <td><a href="{% url 'main_references:author-delete' obj.id %}"><i class="bi bi-trash3-fill"></i></a></td>
             <tr>
         {% endfor %}
+        <b></b><a href="{% url 'main_references:author-create' %}"><p class="fs-5">Create new author</p></i></a></b>
     </tr>
     </table>
 {% endblock MAIN_CONTENT %}

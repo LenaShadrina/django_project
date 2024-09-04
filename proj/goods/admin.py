@@ -5,3 +5,5 @@ from . import models
 
 admin.site.register(models.Book)
 admin.site.register(models.Product)
+admin.site.register(models.BookInstance)
+admin.site.register(models.Status)

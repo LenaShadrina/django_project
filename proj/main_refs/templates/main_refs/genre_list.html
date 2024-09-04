@@ -13,7 +13,7 @@
             <tr>
                 <td>{{ obj.id }}</td>
                 <td>{{ obj.name }}</td>
-                <td><a href="/genre-detail-cbv/{{ obj.id }}">view</a></td>
+                <td><a href="{% url 'main_references:genre-detail' obj.id %}">view</a></td>
             <tr>
         {% endfor %}
     </tr>

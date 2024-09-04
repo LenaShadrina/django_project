@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse, reverse_lazy
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(
@@ -10,6 +11,9 @@ class Genre(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    def get_absolute_url(self):
+        return reverse_lazy('main_references:genre-detail', kwargs={"pk": self.pk})
 
 
 class Author(models.Model):
@@ -29,7 +33,6 @@ class Author(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('main_references:author-detail', kwargs={"pk": self.pk})
-
 
 
 class Series(models.Model):

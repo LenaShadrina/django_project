@@ -1,8 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
+from django.views import generic as generic_views
 from goods import models as book_models
-from . import models
+
+from . import models, forms
+
+
+def get_customer_phone(user):
+    tel = user.profile.phone
+    return tel
 
 
 def update_book_in_cart(key, quantity):
@@ -14,6 +21,7 @@ def update_book_in_cart(key, quantity):
         book_in_cart.quantity = int(quantity)
         book_in_cart.save()
 
+
 def get_or_create_current_cart(request):
     cart_id = request.session.get("cart_id", None)
     if request.user.is_anonymous:
@@ -23,7 +31,6 @@ def get_or_create_current_cart(request):
     cart, created = models.Cart.objects.get_or_create(
         pk=cart_id,
         defaults={"user": user},
-
     )
     print("Is the cart was created?", created)
     print("Cart ID", cart.pk)
@@ -31,8 +38,10 @@ def get_or_create_current_cart(request):
         request.session["cart_id"] = cart.pk
     return cart
 
-def create_order():
-    pass
+
+def create_order(request):
+     cart = get_current_cart(request)
+     pass
 
 
 def get_current_cart(request):
@@ -86,7 +95,6 @@ def evaluate_cart(request):
                 action = value
         if action == "update":
             return HttpResponseRedirect(reverse_lazy("orders:view-cart"))
-        create_order()
         return HttpResponseRedirect(reverse_lazy("orders:view-order-create"))
 
 
@@ -94,3 +102,42 @@ def add_product_to_cart_view(request):
     if request.method == "POST":
         add_book_to_cart(request)
     return HttpResponseRedirect(reverse_lazy("orders:view-cart"))
+
+
+class CreateOrderView(generic_views.CreateView):
+    model = models.Order
+    form_class = forms.CreateOrderForm
+    template_name = "orders/create_order.html"
+    success_url = reverse_lazy("orders:created-page")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = get_current_cart(self.request)
+        return context
+
+    def get_form(self, **kwargs):
+        form = super().get_form(**kwargs)
+        form.fields['tel'].initial = get_customer_phone(self.request.user)
+        return form
+
+    def form_valid(self, form):
+        order = form.save(commit=False)
+        order.cart = get_current_cart(self.request)
+        order.save()
+        self.object = order
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class OrderCreateView(generic_views.TemplateView):
+    model = models.Order
+    template_name = "orders/created.html"
+
+
+class OrderView(generic_views.TemplateView):
+    model = models.Order
+    template_name = "orders/view-order.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = get_current_cart(self.request)
+        return context

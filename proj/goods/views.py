@@ -1,70 +1,38 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic as generic_views
 from django.http import HttpResponseRedirect
 from . import models, forms
 from django.urls import reverse, reverse_lazy
-# Create your views here.
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
-class ProductCreate(generic_views.CreateView):
+class ProductCreate(LoginRequiredMixin, generic_views.CreateView):
     model = models.Product
     fields = ['title', 'cover']
-    permission_required = [
-        "goods.view_product",
-        "goods.add_product",
-        "goods.change_product"
-    ]
 
 
-class ProductDetail(generic_views.DetailView):
+class ProductDetail(LoginRequiredMixin, generic_views.DetailView):
     model = models.Product
-    permission_required = [
-        "goods.view_product"
-    ]
 
 
 class BookList(generic_views.ListView):
     model = models.Book
-    permission_required = [
-        "goods.view_book"
-    ]
+
+    def book_list(request):
+        books = objects.filter(available=True)
+        return render(request, 'goods/book_list.html', {'books': books})
 
 
-class BookDetail(generic_views.DetailView):
+
+class BookDetail(LoginRequiredMixin, generic_views.DetailView):
     model = models.Book
-    permission_required = [
-        "goods.view_book"
-    ]
+
+    def book_detail(request):
+        book = get_object_or_404(id=id, available=True)
+        return render(request, 'goods/book_detail.html', {'book': book})
 
 
-class BookCreate(generic_views.CreateView):
-    model = models.Book
-    fields = [
-        'name_book',
-        'image_cover',
-        'price',
-        'authors',
-        'series',
-        'genres',
-        'publication_date',
-        'pages',
-        'binding',
-        'format',
-        'isbn',
-        'weight',
-        'age_restriction',
-        'publishing_house',
-        'available',
-        'description'
-    ]
-    permission_required = [
-        "goods.add_book",
-        "goods.view_book",
-        "goods.change_book"
-    ]
-
-
-class BookUpdate(generic_views.UpdateView):
+class BookCreate(LoginRequiredMixin, generic_views.CreateView):
     model = models.Book
     fields = [
         'name_book',
@@ -84,10 +52,27 @@ class BookUpdate(generic_views.UpdateView):
         'available',
         'description'
     ]
-    permission_required = [
-        "goods.add_book",
-        "goods.view_book",
-        "goods.change_book"
+
+
+class BookUpdate(LoginRequiredMixin, generic_views.UpdateView):
+    model = models.Book
+    fields = [
+        'name_book',
+        'image_cover',
+        'price',
+        'authors',
+        'series',
+        'genres',
+        'publication_date',
+        'pages',
+        'binding',
+        'format',
+        'isbn',
+        'weight',
+        'age_restriction',
+        'publishing_house',
+        'available',
+        'description'
     ]
 
     def get_context_data(self, **kwargs):
@@ -96,11 +81,8 @@ class BookUpdate(generic_views.UpdateView):
         return context
 
 
-class BookDelete(generic_views.DeleteView):
+class BookDelete(LoginRequiredMixin, generic_views.DeleteView):
     model = models.Book
     success_url = reverse_lazy("goods:book-list")
-    permission_required = [
-        "goods.delite_book",
-        "goods.view_book",
-    ]
+
 

@@ -32,6 +32,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['lenashadrina.pythonanywhere.com']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,7 +47,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'acc',
-    'orders'
+    'orders',
+    'catalog.apps.CatalogConfig',
 ]
 
 MIDDLEWARE = [
@@ -64,9 +66,10 @@ ROOT_URLCONF = 'proj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / "templates",
-        ],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        # 'DIRS': [
+        #     BASE_DIR / "templates",
+        # ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,6 +81,7 @@ TEMPLATES = [
         },
     },
 ]
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -141,5 +145,6 @@ MEDIA_ROOT = BASE_DIR.parent / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/catalog/'
 

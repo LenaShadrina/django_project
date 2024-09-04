@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth import views as auth_views
 from django.views import generic
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from . import models, forms
 
 # Create your views here.
@@ -12,7 +13,12 @@ from . import models, forms
 
 class MyLoginView(auth_views.LoginView):
     template_name = "acc/login.html"
+    success_url = reverse_lazy("accounts:profile-detail")
 
+
+def logout_view(request):
+    logout(request)
+    return redirect('/catalog')
 
 def login_view(request):
     if request.method == "GET":
@@ -24,9 +30,9 @@ def login_view(request):
         password = request.POST["password"]
         redirect_to = request.POST.get("next", "/")
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user:
             login(request, user)
-            return HttpResponseRedirect(redirect_to)
+            return HttpResponseRedirect(reverse("accounts:profile-detail"))
         else:
             context = {
                 'error_ message': 'Username or/and password are incorrect',
@@ -80,7 +86,7 @@ class CustomerProfileDetail(CheckProfileMixin, generic.DetailView):
         profile = models.CustomerProfile.objects.filter(
             user__pk=user.pk
         )
-        print(profile)
+
         if profile:
             profile = profile[0]
         else:

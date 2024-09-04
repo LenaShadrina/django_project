@@ -1,21 +1,50 @@
 from django import forms
 from django.core.exceptions import ValidationError
-
 from . import models
 
 
 class ProfileCreateForm(forms.ModelForm):
-    delivery_address = forms.CharField(
+    first_name = forms.CharField(
         required=True,
-        label="Delivery address",
-        widget=forms.Textarea
+        label="First name",
     )
-
+    last_name = forms.CharField(
+        required=True,
+        label="Last name",
+    )
+    email = forms.EmailField(
+        required=True,
+        label="Email",
+        )
+    address_1 = forms.CharField(
+        required=True,
+        label="Delivery address 1",
+    )
+    address_2 = forms.CharField(
+        required=True,
+        label="Delivery address 2",
+    )
+    postal_code = forms.CharField(
+        required=True,
+        label="Postal code",
+    )
+    city = forms.CharField(
+        required=True,
+        label="City",
+    )
+    phone = forms.CharField(
+        required=True,
+        label="Telephone",
+    )
     class Meta:
         model = models.CustomerProfile
         fields = [
-            "delivery_address",
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
         ]
+
 
 class ContactForm(forms.Form):
     name = forms.CharField(
@@ -29,9 +58,3 @@ class ContactForm(forms.Form):
         label="Leave your message",
         widget=forms.Textarea
     )
-
-    #def clean(self, *args, **kwargs):
-        #cleaned_data = super().clean(*args, **kwargs)
-       # name = cleaned_data["name"]
-       # message = cleaned_data["message"]
-       # return cleaned_data

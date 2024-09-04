@@ -2,9 +2,18 @@
 
 
 {% block MAIN_CONTENT %}
+
 <h1>Your profile</h1>
+
 <b>User:</b> {{ user }} <br>
-<b>Email:</b> {{ user.email }} <br>
-<b>Delivery address:</b> {{ user.profile.delivery_address }} <br>
+<b>First name:</b> {{ user.profile.first_name }} <br>
+<b>Last name:</b> {{ user.profile.last_name }} <br>
+<b>Email:</b> {{ user.profile.email }} <br>
+<b>Address_1:</b> {{ user.profile.address_1 }} <br>
+<b>Address_2:</b> {{ user.profile.address_2 }} <br>
+<b>Postal code:</b> {{ user.profile.postal_code }} <br>
+<b>City:</b> {{ user.profile.city }} <br>
+<b>Phone:</b> {{ user.profile.phone }} <br>
+
 
 {% endblock MAIN_CONTENT %}

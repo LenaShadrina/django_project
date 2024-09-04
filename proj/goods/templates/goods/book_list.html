@@ -4,19 +4,25 @@
 {% block MAIN_CONTENT %}
     <table class="table table-striped">
         <thead>
-            <td>ID</td>
-            <td>name book</td>
-            <td>author</td>
-            <td>genre</td>
-            <td>cover</td>
+            <td><b>ID</b></td>
+            <td><b>name book</b></td>
+            <td><b>author</b></td>
+            <td><b>genre</b></td>
+            <td><b>book cover</b></td>
+            <td><b>price</b></td>
+            <td><b>order</b></td>
+
         </thead>
         {% for obj in object_list %}
             <tr>
-                <td>{{ obj.id }}</td>
-                <td>{{ obj.name_book }}</td>
+                <td><b>{{ obj.id }}</b></td>
+                <td><b>{{ obj.name_book }}</b></td>
                 <td>{{ obj.authors }}</td>
                 <td>{{ obj.genres }}</td>
-                <td><a href="/product-detail/{{ obj.id }}">view</a></td>
+                <td><img src="{{ obj.image_cover.cover.url }}" class="card-img-top" alt="1" style="width:125px;height:125px;" ></td>
+                <td>{{ obj.price }}</td>
+                <td><a href="{% url 'goods:book-detail' obj.id %}">view and buy</a></td>
+
             <tr>
         {% endfor %}
         </tr>

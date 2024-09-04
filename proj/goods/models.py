@@ -1,5 +1,6 @@
 from django.db import models
 from main_refs.models import Genre, Author, Series, Publishing_house
+from django.urls import reverse, reverse_lazy
 # Create your models here.
 
 
@@ -48,3 +49,17 @@ class Book(models.Model):
     def __str__(self):
         return f"{self.name_book}"
 
+    def get_absolute_url(self):
+        return reverse_lazy('catalog:books-detail', args=[str(self.pk)])
+
+class Status(models.Model):
+    name_status =models.CharField(max_length=20, verbose_name="Book copy status")
+    def __str__(self):
+        return self.name_status
+
+class BookInstance(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
+    inv_num = models.CharField(max_length=20, null=True, verbose_name="Enter inventory number")
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True, verbose_name="Instance status")
+    def __str__(self):
+        return f'{self.inv_num} {self.book} {self.status}'
