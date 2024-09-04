@@ -1,0 +1,9 @@
+{% block MAIN_CONTENT %}
+<form method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <button type="submit">logout</button>
+</form>
+
+<a href="{% url 'catalog:index' %}">home</a>
+
+{% endblock MAIN_CONTENT %}
